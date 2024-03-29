@@ -1,0 +1,44 @@
+{% extends 'global/base.html' %}
+
+{% block content %}
+  
+  <div class="responsive-table">
+    <table class="contacts-table">
+      <caption class="table-caption ">
+        Filmes
+      </caption>
+
+      <thead>
+        <tr class="table-row table-row-header">
+          <th class="table-header">ID</th>
+          <th class="table-header">Nome</th>
+          <th class="table-header">Descrição</th>
+          <th class="table-header">Data</th>
+          <th class="table-header">Nota</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for filme in page_obj %}
+          <tr class="table-row">
+            <td class="table-cel">
+                {{ filme.id }}
+            </td>
+            <td class="table-cel">
+              {{ filme.nome }}
+            </td>
+            <td class="table-cel">
+              {{ filme.desc }}
+            </td>
+            <td class="table-cel">
+              {{ filme.data }}
+            </td>
+            <td class="table-cel">
+              {{ filme.nota_media }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}
