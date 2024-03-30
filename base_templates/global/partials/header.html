@@ -6,11 +6,36 @@
     </h1>
     <nav class="menu">
         <ul class="menu-list">
-            <li>
-                <a>
-                    Filmes
-                </a>
-            </li>
+            {% if user.is_authenticated %}
+                <li class="menu-item">
+                    <a href="{% url 'app:userinfo' %}" class="menu-link">
+                    Perfil | {{ user.username }}
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{% url 'app:logout' %}" class="menu-link">
+                    Logout
+                    </a>
+                </li>
+            {% else %}
+                <li class="menu-item">
+                    <a class="menu-link">
+                        Visitante
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{% url 'app:login' %}" class="menu-link">
+                        Login
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
+    <div class="search">
+        <form action="{% url 'app:search' %}" method="GET">
+            <input type="text" class="search-input" placeholder="Buscar"
+            id="search"
+            name="q">
+        </form>
+    </div>
 </header>

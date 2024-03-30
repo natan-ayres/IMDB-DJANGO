@@ -1,0 +1,17 @@
+{% extends 'global/base.html' %}
+
+{% block content %}
+  <div class="single-contact">
+    <h1 class="single-contact-name">
+      {{ filme.nome }} 
+    </h1>
+    <div class="picture">
+        <p><img src="/{{ filme.foto }}" alt="" style="width: 225px; height: 225px;"></p>
+    </div>
+    <p><b>ID:</b> {{ filme.id }}</p>
+    <p><b>Nome:</b> {{ filme.nome }}</p>
+    <p><b>Descrição:</b> {{ filme.desc }}</p>
+    <p><b>Data:</b> {{ filme.data }}</p>
+    <p><b>Nota:</b> {{ filme.nota_media}}</p>
+  </div>
+{% endblock content %}

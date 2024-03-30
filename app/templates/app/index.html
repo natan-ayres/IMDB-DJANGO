@@ -22,7 +22,9 @@
         {% for filme in page_obj %}
           <tr class="table-row">
             <td class="table-cel">
-                {{ filme.id }}
+            <a class="table-link" href="{% url 'app:filme' filme.id %}">
+              {{ filme.id }}
+            </a>
             </td>
             <td class="table-cel">
               {{ filme.nome }}

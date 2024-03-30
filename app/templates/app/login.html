@@ -1,0 +1,21 @@
+{% extends 'global/base.html' %}
+
+{% block content %}
+  <div class="form-wrapper">
+
+    
+    {% if user.is_authenticated %}
+    {% url 'app:userinfo' as redirect_to %}
+      {% if redirect_to %}
+          <script type="text/javascript">
+              window.location.href = "{{ redirect_to }}";
+          </script>
+      {% endif %}
+    {% else %}
+      <h2>Login</h2>
+      {% include 'app/partials/user_form.html'%}
+      <p><a href="{% url 'app:register'%}">Cadastrar Usuário</a>
+    {% endif %}
+    
+  </div>
+{% endblock content %}
