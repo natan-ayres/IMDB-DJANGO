@@ -30,6 +30,41 @@
           </div>
       </div>
     </div>
+  <div class="responsive-table">
+    <table class="contacts-table">
+      <caption class="table-caption ">
+        Reviews
+      </caption>
+
+      <thead>
+        <tr class="table-row table-row-header">
+          <th class="table-header">ID</th>
+          <th class="table-header">Filme</th>
+          <th class="table-header">Review</th>
+          <th class="table-header">Nota</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for review in page_obj %}
+          <tr class="table-row">
+            <td class="table-cel">
+                {{ review.id }}
+            </td>
+            <td class="table-cel">
+              {{ review.filme }}
+            </td>
+            <td class="table-cel">
+              {{ review.review }}
+            </td>
+            <td class="table-cel">
+              {{ review.nota }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
     <script>
         function openPopup() {
           document.getElementById("popup-overlay").style.display = "block";
