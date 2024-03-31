@@ -1,6 +1,7 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.db import models
+from django.db.models import Avg
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 
@@ -10,15 +11,32 @@ class Filmes(models.Model):
     data = models.DateField()
     foto = models.ImageField(blank=True, upload_to= 'posters/')
     nota_media = models.FloatField(blank=True, null=True)
-    review = models.TextField(max_length=150)
+    
+    def calcular_nota_media(self):
+        reviews = self.reviews.all()
+        if reviews.exists():
+            media = reviews.aggregate(Avg('nota'))['nota__avg']
+            self.nota_media = media
+        else:
+            self.nota_media = None
+
+    def save(self, *args, **kwargs):
+        self.calcular_nota_media()
+        super(Filmes, self).save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.nome}'
     
 class Reviews(models.Model):
-    filme = models.ForeignKey(Filmes, on_delete=models.CASCADE)
+    filme = models.ForeignKey(Filmes, related_name='reviews', on_delete=models.CASCADE)
     review = models.TextField(max_length=150)
     nota = models.FloatField(validators=[MinValueValidator(0,0), MaxValueValidator(10,0)])
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,)
+
+    def save(self, *args, **kwargs):
+        super(Reviews, self).save(*args, **kwargs)
+        self.filme.calcular_nota_media()
+        self.filme.save()
 
     def __str__(self):
         return f'{self.user.username} {self.filme} {self.nota}'
