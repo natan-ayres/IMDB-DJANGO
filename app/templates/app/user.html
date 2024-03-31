@@ -11,7 +11,7 @@
       <p><b>Sobrenome:</b> {{ user.last_name }}</p>
       <p><b>Email:</b> {{ user.email }}</p>
       <div class="contact-links">
-          <a class="btn btn-link" href="{% url 'app:userupdate' %}"> 
+          <a class="btn btn-link" href="{% url 'app:userupdate'%}"> 
             Atualizar
           </a>
           
@@ -49,10 +49,14 @@
         {% for review in page_obj %}
           <tr class="table-row">
             <td class="table-cel">
+                <a href="{% url 'app:update' review.id%}">
                 {{ review.id }}
+                </a>
             </td>
             <td class="table-cel">
-              {{ review.filme }}
+                <a href="{% url 'app:filme' review.filme.id %}">
+                {{ review.filme }}
+                </a>
             </td>
             <td class="table-cel">
               {{ review.review }}

@@ -48,7 +48,7 @@ def create(request):
 def update(request, review_id):
     try:
         review = Reviews.objects.get(pk=review_id)
-    except review.DoesNotExist:
+    except Reviews.DoesNotExist:
         messages.error(request, 'Review não existente')
         return redirect('app:index')
     if review.usuario == request.user:
