@@ -14,7 +14,7 @@ def create(request):
     form_action = reverse('app:create')
 
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = ReviewForm(request.POST, usuario=request.user)
 
         context = {
             'form': form,
@@ -35,7 +35,7 @@ def create(request):
         )
 
     context = {
-        'form': ReviewForm(),
+        'form': ReviewForm(usuario=request.user),
         'form_action': form_action,
     }
 
@@ -55,7 +55,7 @@ def update(request, review_id):
         form_action = reverse('app:update', args=(review_id,))
 
         if request.method == 'POST':
-            form = ReviewForm(request.POST, instance=review)
+            form = ReviewForm(request.POST, instance=review, usuario=request.user)
 
             context = {
                 'form': form,
@@ -74,7 +74,7 @@ def update(request, review_id):
             )
 
         context = {
-            'form': ReviewForm(instance=review),
+            'form': ReviewForm(instance=review , usuario=request.user),
             'form_action': form_action,
         }
 
@@ -88,7 +88,7 @@ def update(request, review_id):
         return redirect('app:index')
 
 def delete(request, review_id):
-    review = review.objects.get(pk=review_id)
+    review = Reviews.objects.get(pk=review_id)
     if review.usuario == request.user:
         review.delete()
         messages.success(request, 'Review Deletado')

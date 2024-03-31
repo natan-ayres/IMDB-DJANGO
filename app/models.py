@@ -7,11 +7,12 @@ from django.contrib.auth.models import User
 
 class Filmes(models.Model):
     nome = models.CharField(max_length=30)
-    desc = models.TextField(max_length=70)
+    desc = models.TextField(max_length=100)
     data = models.DateField()
     foto = models.ImageField(blank=True, upload_to= 'posters/')
-    nota_media = models.FloatField(blank=True, null=True)
-    
+    nota_media = models.DecimalField(blank=True, null=True, max_digits=3, decimal_places=1)
+    avaliacoes = models.ManyToManyField(User, through='Reviews')
+
     def calcular_nota_media(self):
         reviews = self.reviews.all()
         if reviews.exists():
@@ -29,7 +30,7 @@ class Filmes(models.Model):
     
 class Reviews(models.Model):
     filme = models.ForeignKey(Filmes, related_name='reviews', on_delete=models.CASCADE)
-    review = models.TextField(max_length=150)
+    review = models.TextField(max_length=250)
     nota = models.FloatField(validators=[MinValueValidator(0,0), MaxValueValidator(10,0)])
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,)
 
@@ -39,7 +40,7 @@ class Reviews(models.Model):
         self.filme.save()
 
     def __str__(self):
-        return f'{self.user.username} {self.filme} {self.nota}'
+        return f"Avaliação de {self.usuario.username} para {self.filme.nome} - Nota: {self.nota}"
 
 @receiver(pre_save, sender=Reviews)
 def set_contact_owner(sender, instance, **kwargs):

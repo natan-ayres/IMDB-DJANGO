@@ -33,15 +33,17 @@ class ReviewForm(forms.ModelForm):
         required=False
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['filme'].queryset = Filmes.objects.all()
-    
     class Meta:
         model = Reviews
         fields = (
-            'filme', 'review', 'nota'
+        'filme', 'nota', 'review',
         )
+
+    def __init__(self, *args, **kwargs):
+        usuario = kwargs.pop('usuario')
+        super().__init__(*args, **kwargs)
+        filmes_avaliados = Filmes.objects.filter(avaliacoes=usuario)
+        self.fields['filme'].queryset = Filmes.objects.exclude(id__in=filmes_avaliados)
 
 
 class RegisterForm(UserCreationForm):
