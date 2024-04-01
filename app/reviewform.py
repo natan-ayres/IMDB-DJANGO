@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from app.models import Reviews
 from django.urls import reverse
-from app.forms import ReviewForm
+from app.forms import ReviewForm, ReviewsFormNota
 
 def create(request):
     form_action = reverse('app:create')
@@ -55,7 +55,7 @@ def update(request, review_id):
         form_action = reverse('app:update', args=(review_id,))
 
         if request.method == 'POST':
-            form = ReviewForm(request.POST, instance=review, usuario=request.user)
+            form = ReviewsFormNota(request.POST, instance=review)
 
             context = {
                 'form': form,
@@ -74,7 +74,7 @@ def update(request, review_id):
             )
 
         context = {
-            'form': ReviewForm(instance=review , usuario=request.user),
+            'form': ReviewsFormNota(instance=review),
             'form_action': form_action,
         }
 
